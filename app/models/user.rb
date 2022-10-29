@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
     VALID_EMAIL_REGREX = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
     
-    has_many :microposts
+    has_many :microposts, dependent: :destroy
     has_secure_password
 
     validates :name, presence: true, length: { maximum: 50 }

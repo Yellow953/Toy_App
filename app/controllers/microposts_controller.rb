@@ -1,5 +1,6 @@
 class MicropostsController < ApplicationController
   before_action :set_micropost, only: %i[ show edit update destroy ]
+  before_action :logged_in_user, only: [:create, :destroy]
 
   # GET /microposts or /microposts.json
   def index
@@ -21,17 +22,15 @@ class MicropostsController < ApplicationController
 
   # POST /microposts or /microposts.json
   def create
-    @micropost = Micropost.new(micropost_params)
+    @micropost = current_user.microposts.build(micropost_params)
 
-    respond_to do |format|
       if @micropost.save
-        format.html { redirect_to micropost_url(@micropost), notice: "Micropost was successfully created." }
-        format.json { render :show, status: :created, location: @micropost }
+        flash[:success] = "Micropost created!"
+        redirect_to root_path
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @micropost.errors, status: :unprocessable_entity }
       end
-    end
   end
 
   # PATCH/PUT /microposts/1 or /microposts/1.json
@@ -65,6 +64,6 @@ class MicropostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def micropost_params
-      params.require(:micropost).permit(:content, :user_id)
+      params.require(:micropost).permit(:content)
     end
 end
