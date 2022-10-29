@@ -3,12 +3,14 @@
 <h1>Users</h1>
 
 <div id="users">
+  <%= will_paginate %>
   <% @users.each do |user| %>
     <%= render user %>
     <p>
       <%= link_to "Show this user", user %>
     </p>
   <% end %>
+  <%= will_paginate %>
 </div>
 
 <%= link_to "New user", new_user_path %>

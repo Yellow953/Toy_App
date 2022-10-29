@@ -21,4 +21,5 @@
 /config/master.key
 
 README.md
-DS_STORE
+.DS_STORE
+vendor
