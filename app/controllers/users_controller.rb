@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @users = User.paginate(page: params[:page], per_page: 5)
+    @users = User.where(activated: true).paginate(page: params[:page], per_page: 5)
   end
 
   # GET /users/1 or /users/1.json
@@ -28,8 +28,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      flash[:success] = "User was successfully registered."
-      log_in @user
+      @user.send_activate_email
+      flash[:info] = "Please check your email to activate your account."
       redirect_to root_path
     else
       format.html { render :new, status: :unprocessable_entity }
