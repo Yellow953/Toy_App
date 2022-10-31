@@ -1,9 +1,24 @@
-<div>
-    <h1 class="my-5">
-        Welcome to My App Home Page
-    </h1>
-    <p class="my-5">
-        This is a Sample App developped by <br> Joe M. Mazloum <br> based on Ruby On Rails programming Laguage
-    </p>
-    <%= link_to "Register", "/register", class:"btn btn-primary p-2 m-5" %>
-</div>
+<% if logged_in? %>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4" >
+                <%= render "layouts/user_info" %><br>
+                <%= render "layouts/micropost_form" %>
+            </div>
+            <div class="col-md-8" >
+                <h2>Microposts Feed</h2><br>
+                <%= render "layouts/feed" %>
+            </div>
+        </div>
+    </div>
+<% else %>
+    <div>
+        <h1 class="my-5">
+            Welcome to My App Home Page
+        </h1>
+        <p class="my-5">
+            This is a Sample App developped by <br> Joe M. Mazloum <br> based on Ruby On Rails programming Laguage
+        </p>
+        <%= link_to "Register", "/register", class:"btn btn-primary p-2 m-5" %>
+    </div>
+<% end %>

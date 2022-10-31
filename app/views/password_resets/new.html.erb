@@ -1,6 +1,8 @@
 <h1>Forgot your password</h1>
 
 <%= form_with(url: password_resets_path, scope: :password_reset, local: true) do |form| %>
+  <% render 'layouts/error_messages', object: form.object %>
+  
   <div class="m-3">
     <%= form.label :email, class:"input-label" %>
     <%= form.text_field :email, class:"form-control input-field" %>

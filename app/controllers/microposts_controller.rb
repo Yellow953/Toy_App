@@ -1,6 +1,7 @@
 class MicropostsController < ApplicationController
   before_action :set_micropost, only: %i[ show edit update destroy ]
   before_action :logged_in_user, only: [:create, :destroy]
+  before_action :correct_user, only: [:destroy]
 
   # GET /microposts or /microposts.json
   def index
@@ -23,13 +24,14 @@ class MicropostsController < ApplicationController
   # POST /microposts or /microposts.json
   def create
     @micropost = current_user.microposts.build(micropost_params)
+    @micropost.image.attach(params[:micropost][:image])
 
       if @micropost.save
         flash[:success] = "Micropost created!"
         redirect_to root_path
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @micropost.errors, status: :unprocessable_entity }
+        @feed_items = current_user.feed.paginate(page: params[:page])
+        redirect_to root_path
       end
   end
 
@@ -49,11 +51,8 @@ class MicropostsController < ApplicationController
   # DELETE /microposts/1 or /microposts/1.json
   def destroy
     @micropost.destroy
-
-    respond_to do |format|
-      format.html { redirect_to microposts_url, notice: "Micropost was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    flash[:danger] = "Micropost was successfully destroyed."
+    redirect_to request.referrer || root_path
   end
 
   private
@@ -64,6 +63,12 @@ class MicropostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def micropost_params
-      params.require(:micropost).permit(:content)
+      params.require(:micropost).permit(:content, :image)
     end
+
+    def correct_user
+      @micropost = current_user.microposts.find_by(id: params[:id])
+      redirect_to root_path if @micropost.nil?      
+    end
+    
 end
