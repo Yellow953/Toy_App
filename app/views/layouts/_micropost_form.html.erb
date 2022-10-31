@@ -1,7 +1,7 @@
 <div class="card p-5">
     <%= form_with(model: @micropost, local: true) do |form| %>
         <% render 'layouts/error_messages', object: form.object %>
-'
+
         <div>
             <%= form.text_area :content, placeholder:"Compose new Micropost", class:"input-field form-control" %>
         </div><br>

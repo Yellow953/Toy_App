@@ -1,0 +1,18 @@
+<% @user ||= current_user %>
+<div class="row text-center m-2">
+    <div class="col-4">
+        <a href="<%= following_user_path(@user) %>">Following : <%= current_user.following.count %></a>
+    </div>
+    <div class="col-4">
+        <a href="<%= followers_user_path(@user) %>">Followers : <%= current_user.followers.count %></a>
+    </div>
+    <div class="col-4">
+        <% unless current_user?(@user) %>
+            <% if current_user.following?(@user) %>
+                <%= render "unfollow" %>
+            <% else %>
+                <%= render "follow" %>
+            <% end %>
+        <% end %>
+    </div>    
+</div>

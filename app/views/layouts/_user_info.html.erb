@@ -3,4 +3,5 @@
     <h2><%= current_user.email %></h2>
     <h3>Microposts: <%= current_user.microposts.count %></h3>
     <%= link_to "View my profile", current_user, class:"btn btn-primary" %>
+    <%= render "layouts/stats" %>
 </div>

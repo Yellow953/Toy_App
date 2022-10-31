@@ -5,6 +5,13 @@ Rails.application.routes.draw do
   resources :users
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :relationships, only: [:create, :destroy]
+
+  resources :users do 
+    member do
+      get :following, :followers
+    end
+  end    
 
   get 'static_pages/home'
   get 'static_pages/help'
