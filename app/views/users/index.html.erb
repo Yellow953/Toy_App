@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Users</h1>
 
 <div id="users">
@@ -7,10 +5,10 @@
   <% @users.each do |user| %>
     <%= render user %>
     <p>
-      <%= link_to "Show this user", user %>
+      <%= link_to "Show this user", user, class:"btn btn-info m-1" %>
     </p>
   <% end %>
   <%= will_paginate %>
 </div>
 
-<%= link_to "New user", new_user_path %>
+<%= link_to "New user", new_user_path, class:"btn btn-primary m-1"  %>

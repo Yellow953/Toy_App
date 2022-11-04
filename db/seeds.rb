@@ -25,7 +25,10 @@ end
 users = User.order(:created_at).take(5)
 5.times do 
     content = Faker::Lorem.sentence(word_count: 5)
-    users.each { |user| user.microposts.create!(content: content) }
+    users.each { |user| 
+        micropost = user.microposts.create!(content: content)
+        micropost.image.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'rails.png')), filename: 'rails.png', content_type: 'image/png')
+    }
 end   
 
 #follow

@@ -24,7 +24,13 @@ class MicropostsController < ApplicationController
   # POST /microposts or /microposts.json
   def create
     @micropost = current_user.microposts.build(micropost_params)
-    @micropost.image.attach(params[:micropost][:image])
+    
+    if params[:micropost][:image]
+      @micropost.image.attach(params[:micropost][:image])
+    else
+      @micropost.image.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'rails.png')), filename: 'rails.png', content_type: 'image/png')
+    end
+
 
       if @micropost.save
         flash[:success] = "Micropost created!"
@@ -68,7 +74,10 @@ class MicropostsController < ApplicationController
 
     def correct_user
       @micropost = current_user.microposts.find_by(id: params[:id])
-      redirect_to root_path if @micropost.nil?      
+      if @micropost.nil?
+        redirect_to root_path
+        flash[:danger] = "wrong user"
+      end
     end
     
 end
